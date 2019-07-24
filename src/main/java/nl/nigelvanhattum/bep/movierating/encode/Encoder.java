@@ -4,10 +4,7 @@ import nl.nigelvanhattum.bep.movierating.encode.model.Movie;
 
 import java.util.List;
 
-public class JSONEncoder implements Encoder{
+public interface Encoder {
 
-    @Override
-    public Object encode(List<Movie> mvoies) {
-        return null;
-    }
+    Object encode(List<Movie> mvoies);
 }

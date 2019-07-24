@@ -1,9 +1,10 @@
 import org.apache.commons.cli.*;
 
+import java.io.File;
+
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        System.out.println("Test test test");
         Options options = new Options();
 
         Option jsoninput = new Option("json", "jsonInput", true, "input json-file path");
@@ -14,18 +15,21 @@ public class Main {
         xmlinput.setRequired(false);
         options.addOption(xmlinput);
 
+        Option output = new Option("out", "output", true, " ");
+        xmlinput.setRequired(false);
+        options.addOption(xmlinput);
+
         CommandLineParser parser = new DefaultParser();
         HelpFormatter formatter = new HelpFormatter();
+
         CommandLine cmd;
-        String inputFilePath = null;
-        String outputFilePath = null;
+        String inputFilePath[] = null;
+        String outputFilePath[] = null;
 
         try {
-            System.out.println("test");
             cmd = parser.parse(options, args);
-            System.out.println("gottem");
-            inputFilePath = cmd.getOptionValue("jsonInput");
-            outputFilePath = cmd.getOptionValue("xmlinput");
+            inputFilePath = cmd.getOptionValues("jsonInput");
+            outputFilePath = cmd.getOptionValues("xmlInput");
         } catch (Exception e) {
             System.out.println(e.getMessage());
             formatter.printHelp("utility-name", options);
@@ -33,7 +37,11 @@ public class Main {
             System.exit(1);
         }
 
-        System.out.println(inputFilePath);
+        for(String s: inputFilePath) {
+            System.out.println(s);
+            File f = new File("Fietsbel");
+            System.out.println(f.getAbsolutePath());
+        }
         System.out.println(outputFilePath);
 
     }
