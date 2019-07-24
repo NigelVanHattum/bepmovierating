@@ -1,5 +1,6 @@
-import org.apache.commons.cli.*;
+package nl.nigelvanhattum.bep.movierating;
 
+import org.apache.commons.cli.*;
 import java.io.File;
 
 public class Main {
