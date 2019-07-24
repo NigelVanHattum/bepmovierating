@@ -11,7 +11,7 @@
 
     <repositories>
         <repository>
-            <id>Nigel-95-BEP</id>
+            <id>packagecloud-myrepo</id>
             <url>https://packagecloud.io/Nigel-95/BEP/maven2</url>
             <releases>
                 <enabled>true</enabled>
