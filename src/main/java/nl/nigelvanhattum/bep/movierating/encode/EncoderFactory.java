@@ -6,6 +6,8 @@ import nl.nigelvanhattum.bep.movierating.encode.encoders.XMLEncoder;
 
 public class EncoderFactory {
 
+    private  EncoderFactory(){}
+
     public static Encoder getEncoder(EncoderType type) {
 
         switch (type) {
