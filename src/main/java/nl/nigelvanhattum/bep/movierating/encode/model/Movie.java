@@ -3,7 +3,7 @@ package nl.nigelvanhattum.bep.movierating.encode.model;
 public class Movie {
     private String name;
     private String releaseDate;
-    private String rating;
+    private double rating;
 
     public String getName() {
         return name;
@@ -21,11 +21,11 @@ public class Movie {
         this.releaseDate = releaseDate;
     }
 
-    public String getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(String rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 }
