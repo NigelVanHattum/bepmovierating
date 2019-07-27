@@ -1,7 +1,6 @@
 package nl.nigelvanhattum.bep.movierating.encode.encoders;
 
 import com.google.gson.Gson;
-import nl.nigelvanhattum.bep.movierating.encode.Encoder;
 import nl.nigelvanhattum.bep.movierating.encode.model.Movie;
 
 import java.io.OutputStreamWriter;
