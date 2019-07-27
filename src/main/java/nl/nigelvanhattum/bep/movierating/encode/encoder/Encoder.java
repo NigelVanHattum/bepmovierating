@@ -1,4 +1,4 @@
-package nl.nigelvanhattum.bep.movierating.encode.encoders;
+package nl.nigelvanhattum.bep.movierating.encode.encoder;
 
 import nl.nigelvanhattum.bep.movierating.encode.model.Movie;
 

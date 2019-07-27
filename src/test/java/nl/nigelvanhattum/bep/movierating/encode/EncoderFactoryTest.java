@@ -1,8 +1,8 @@
 package nl.nigelvanhattum.bep.movierating.encode;
 
-import nl.nigelvanhattum.bep.movierating.encode.encoders.Encoder;
-import nl.nigelvanhattum.bep.movierating.encode.encoders.JSONEncoder;
-import nl.nigelvanhattum.bep.movierating.encode.encoders.XMLEncoder;
+import nl.nigelvanhattum.bep.movierating.encode.encoder.Encoder;
+import nl.nigelvanhattum.bep.movierating.encode.encoder.JSONEncoder;
+import nl.nigelvanhattum.bep.movierating.encode.encoder.XMLEncoder;
 import org.junit.Assert;
 import org.junit.Test;
 

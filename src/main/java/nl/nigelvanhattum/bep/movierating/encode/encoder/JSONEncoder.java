@@ -1,4 +1,4 @@
-package nl.nigelvanhattum.bep.movierating.encode.encoders;
+package nl.nigelvanhattum.bep.movierating.encode.encoder;
 
 import com.google.gson.Gson;
 import nl.nigelvanhattum.bep.movierating.encode.model.Movie;
