@@ -50,6 +50,29 @@ public class MovieTest {
     }
 
     @Test
+    public void testWrongClassEquals() {
+        Movie movie1 = new Movie();
+        movie1.setName("The Godfather");
+        movie1.setReleaseDate("1972-03-24");
+        movie1.setRating(9.2);
+
+        String notAMovieString = "This is not a movie";
+
+        Assert.assertEquals(movie1, notAMovieString);
+    }
+
+    @Test
+    public void testNullEquals() {
+        Movie movie1 = new Movie();
+        movie1.setName("The Godfather");
+        movie1.setReleaseDate("1972-03-24");
+        movie1.setRating(9.2);
+
+        Assert.assertEquals(movie1, null);
+    }
+
+
+    @Test
     public void testHashCode() {
         Integer expectedHash = 2066219782;
         Movie movie1 = new Movie();
