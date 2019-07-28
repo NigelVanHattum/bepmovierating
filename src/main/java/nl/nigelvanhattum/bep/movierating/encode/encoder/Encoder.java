@@ -2,12 +2,13 @@ package nl.nigelvanhattum.bep.movierating.encode.encoder;
 
 import nl.nigelvanhattum.bep.movierating.model.Movie;
 
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.List;
 
 public interface Encoder {
 
-    String encode(List<Movie> mvoies);
+    String encode(List<Movie> movies);
 
-    boolean writeOut(List<Movie> movies, OutputStreamWriter writer);
+    OutputStream encodeStream(List<Movie> movies, OutputStream outputStream);
 }

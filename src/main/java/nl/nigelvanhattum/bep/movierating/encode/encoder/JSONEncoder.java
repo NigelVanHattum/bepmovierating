@@ -3,10 +3,20 @@ package nl.nigelvanhattum.bep.movierating.encode.encoder;
 import com.google.gson.Gson;
 import nl.nigelvanhattum.bep.movierating.model.Movie;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class JSONEncoder implements Encoder {
+    private Logger logger;
+
+    public JSONEncoder() {
+        logger = Logger.getLogger(getClass().getName());
+    }
+
     @Override
     public String encode(List<Movie> movies) {
         Gson gson = new Gson();
@@ -14,7 +24,15 @@ public class JSONEncoder implements Encoder {
     }
 
     @Override
-    public boolean writeOut(List<Movie> movies, OutputStreamWriter writer) {
-        return false;
+    public OutputStream encodeStream(List<Movie> movies, OutputStream outputStream) {
+        OutputStreamWriter writer = new OutputStreamWriter(outputStream);
+        Gson gson = new Gson();
+        gson.toJson(movies, writer);
+        try {
+            writer.close();
+        } catch (IOException e) {
+            logger.log(Level.WARNING, e.getMessage());
+        }
+        return outputStream;
     }
 }
