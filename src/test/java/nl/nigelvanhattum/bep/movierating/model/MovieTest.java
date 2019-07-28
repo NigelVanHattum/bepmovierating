@@ -1,4 +1,4 @@
-package nl.nigelvanhattum.bep.movierating.decode.model;
+package nl.nigelvanhattum.bep.movierating.model;
 
 import nl.nigelvanhattum.bep.movierating.model.Movie;
 import org.junit.Assert;
