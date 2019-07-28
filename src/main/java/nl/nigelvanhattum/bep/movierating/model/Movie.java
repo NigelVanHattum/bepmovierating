@@ -1,4 +1,4 @@
-package nl.nigelvanhattum.bep.movierating.encode.model;
+package nl.nigelvanhattum.bep.movierating.model;
 
 public class Movie {
     private String name;

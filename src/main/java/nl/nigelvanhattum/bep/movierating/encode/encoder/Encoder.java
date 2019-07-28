@@ -1,6 +1,6 @@
 package nl.nigelvanhattum.bep.movierating.encode.encoder;
 
-import nl.nigelvanhattum.bep.movierating.encode.model.Movie;
+import nl.nigelvanhattum.bep.movierating.model.Movie;
 
 import java.io.OutputStreamWriter;
 import java.util.List;

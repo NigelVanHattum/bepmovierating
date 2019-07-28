@@ -1,5 +1,6 @@
 package nl.nigelvanhattum.bep.movierating.decode.model;
 
+import nl.nigelvanhattum.bep.movierating.model.Movie;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

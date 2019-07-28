@@ -3,7 +3,7 @@ package nl.nigelvanhattum.bep.movierating.encode.encoder;
 import com.google.gson.Gson;
 import nl.nigelvanhattum.bep.movierating.encode.EncoderFactory;
 import nl.nigelvanhattum.bep.movierating.encode.EncoderType;
-import nl.nigelvanhattum.bep.movierating.encode.model.Movie;
+import nl.nigelvanhattum.bep.movierating.model.Movie;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
