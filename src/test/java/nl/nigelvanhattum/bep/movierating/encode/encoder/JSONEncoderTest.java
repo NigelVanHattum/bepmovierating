@@ -41,8 +41,7 @@ public class JSONEncoderTest {
         movie3.setRating(8.0);
         movies.add(movie3);
 
-        Gson gson = new Gson();
-        String encodedString = gson.toJson(movies);
+        String encodedString = encoder.encode(movies);
         String expectedJSON = "[{\"name\":\"The Shawshank Redemption\",\"releaseDate\":\"1994-10-14\",\"rating\":9.2},{\"name\":\"The Shawshank Redemption\",\"releaseDate\":\"1994-10-14\",\"rating\":9.2},{\"name\":\"Pirates of the Caribbean: The Curse of the Black Pearl\",\"releaseDate\":\"2003-07-09\",\"rating\":8.0}]";
 
         Assert.assertEquals(expectedJSON, encodedString);
