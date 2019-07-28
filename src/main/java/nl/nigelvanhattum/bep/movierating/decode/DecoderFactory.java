@@ -12,7 +12,7 @@ public class DecoderFactory {
 
         switch (type) {
             case JSON: return new JSONDecoder();
-            case XML: return new XMLDecoder();
+            case XML: throw new UnsupportedOperationException("This encoder is not yet inplemented");//return new XMLDecoder();
             default: throw new UnsupportedOperationException("This encoder is not yet inplemented");
         }
     }
