@@ -24,8 +24,8 @@ public class Main {
         HelpFormatter formatter = new HelpFormatter();
 
         CommandLine cmd;
-        String inputFilePath[] = null;
-        String outputFilePath[] = null;
+        String[] inputFilePath = null;
+        String[] outputFilePath = null;
 
         try {
             cmd = parser.parse(options, args);

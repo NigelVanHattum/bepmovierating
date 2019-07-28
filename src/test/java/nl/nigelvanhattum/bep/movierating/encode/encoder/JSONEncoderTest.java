@@ -1,6 +1,5 @@
 package nl.nigelvanhattum.bep.movierating.encode.encoder;
 
-import com.google.gson.Gson;
 import nl.nigelvanhattum.bep.movierating.encode.EncoderFactory;
 import nl.nigelvanhattum.bep.movierating.encode.EncoderType;
 import nl.nigelvanhattum.bep.movierating.model.Movie;
@@ -13,10 +12,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class JSONEncoderTest {
     private static final String expectedJSON = "[{\"name\":\"The Shawshank Redemption\",\"releaseDate\":\"1994-10-14\",\"rating\":9.2},{\"name\":\"The Shawshank Redemption\",\"releaseDate\":\"1994-10-14\",\"rating\":9.2},{\"name\":\"Pirates of the Caribbean: The Curse of the Black Pearl\",\"releaseDate\":\"2003-07-09\",\"rating\":8.0}]";
