@@ -41,7 +41,7 @@
                     <configuration>
                         <archive>
                             <manifest>
-                                <mainClass>Main</mainClass>
+                                <mainClass>nl.nigelvanhattum.bep.movierating.Main</mainClass>
                             </manifest>
                         </archive>
                         <descriptorRefs>
