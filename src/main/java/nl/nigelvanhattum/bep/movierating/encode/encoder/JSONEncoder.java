@@ -24,15 +24,11 @@ public class JSONEncoder implements Encoder {
     }
 
     @Override
-    public OutputStream encodeStream(List<Movie> movies, OutputStream outputStream) {
+    public OutputStream encodeStream(List<Movie> movies, OutputStream outputStream) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(outputStream);
         Gson gson = new Gson();
         gson.toJson(movies, writer);
-        try {
-            writer.close();
-        } catch (IOException e) {
-            logger.log(Level.WARNING, e.getMessage());
-        }
+        writer.close();
         return outputStream;
     }
 }

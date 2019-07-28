@@ -2,10 +2,9 @@ package nl.nigelvanhattum.bep.movierating.decode;
 
 import nl.nigelvanhattum.bep.movierating.decode.decoder.Decoder;
 import nl.nigelvanhattum.bep.movierating.decode.decoder.JSONDecoder;
+import nl.nigelvanhattum.bep.movierating.decode.decoder.XMLDecoder;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.beans.XMLDecoder;
 
 public class DecoderFactoryTest {
 

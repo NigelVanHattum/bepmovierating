@@ -9,9 +9,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class JSONEncoderTest {
     private static final String expectedJSON = "[{\"name\":\"The Shawshank Redemption\",\"releaseDate\":\"1994-10-14\",\"rating\":9.2},{\"name\":\"The Shawshank Redemption\",\"releaseDate\":\"1994-10-14\",\"rating\":9.2},{\"name\":\"Pirates of the Caribbean: The Curse of the Black Pearl\",\"releaseDate\":\"2003-07-09\",\"rating\":8.0}]";
@@ -52,7 +57,11 @@ public class JSONEncoderTest {
     @Test
     public void testEncodeStream() {
         OutputStream outputStream = new ByteArrayOutputStream();
-        encoder.encodeStream(baseMovies, outputStream);
+        try {
+            encoder.encodeStream(baseMovies, outputStream);
+        } catch (IOException e) {
+            Assert.fail(e.getMessage());
+        }
 
         String encodedString = outputStream.toString();
 
