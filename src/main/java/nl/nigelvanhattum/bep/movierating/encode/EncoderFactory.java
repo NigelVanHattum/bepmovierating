@@ -10,8 +10,8 @@ public class EncoderFactory {
 
         switch (type) {
             case JSON: return new JSONEncoder();
-            case XML: throw new UnsupportedOperationException("This encoder is not yet inplemented");//return new XMLEncoder();
-            default: throw new UnsupportedOperationException("This encoder is not yet inplemented");
+            case XML: throw new UnsupportedOperationException(String.format("%s encoder is not yet inplemented", type));//return new XMLEncoder();
+            default: throw new UnsupportedOperationException(String.format("%s encoder is not yet inplemented", type));
         }
     }
 
@@ -19,8 +19,8 @@ public class EncoderFactory {
 
         switch (type.toUpperCase()) {
             case "JSON": return new JSONEncoder();
-            case "XML": throw new UnsupportedOperationException("This encoder is not yet inplemented");//return new XMLEncoder();
-            default: throw new UnsupportedOperationException("This encoder is not yet inplemented");
+            case "XML": throw new UnsupportedOperationException(String.format("%s encoder is not yet inplemented", type));//return new XMLEncoder();
+            default: throw new UnsupportedOperationException(String.format("%s encoder is not yet inplemented", type));
         }
     }
 }
