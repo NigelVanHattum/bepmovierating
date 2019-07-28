@@ -50,6 +50,51 @@ public class MovieTest {
     }
 
     @Test
+    public void testNotReleaseEquals() {
+        Movie movie1 = new Movie();
+        movie1.setName("The Godfather");
+        movie1.setReleaseDate("1972-03-24");
+        movie1.setRating(9.2);
+
+        Movie movie2 = new Movie();
+        movie2.setName("The Godfather");
+        movie2.setReleaseDate("1972-04-24");
+        movie2.setRating(9.2);
+
+        Assert.assertNotEquals(movie1, movie2);
+    }
+
+    @Test
+    public void testNotRatingEquals() {
+        Movie movie1 = new Movie();
+        movie1.setName("The Godfather");
+        movie1.setReleaseDate("1972-03-24");
+        movie1.setRating(9.2);
+
+        Movie movie2 = new Movie();
+        movie2.setName("The Godfather");
+        movie2.setReleaseDate("1972-04-24");
+        movie2.setRating(9.3);
+
+        Assert.assertNotEquals(movie1, movie2);
+    }
+
+    @Test
+    public void testNotNameEquals() {
+        Movie movie1 = new Movie();
+        movie1.setName("The Goddfather");
+        movie1.setReleaseDate("1972-03-24");
+        movie1.setRating(9.2);
+
+        Movie movie2 = new Movie();
+        movie2.setName("The Godfather");
+        movie2.setReleaseDate("1972-03-24");
+        movie2.setRating(9.2);
+
+        Assert.assertNotEquals(movie1, movie2);
+    }
+
+    @Test
     public void testExactEquals() {
         Movie movie1 = new Movie();
         movie1.setName("The Godfather");
