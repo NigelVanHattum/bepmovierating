@@ -58,7 +58,7 @@ public class MovieTest {
 
         String notAMovieString = "This is not a movie";
 
-        Assert.assertEquals(movie1, notAMovieString);
+        Assert.assertNotEquals(movie1, notAMovieString);
     }
 
     @Test
@@ -68,7 +68,7 @@ public class MovieTest {
         movie1.setReleaseDate("1972-03-24");
         movie1.setRating(9.2);
 
-        Assert.assertEquals(movie1, null);
+        Assert.assertNotEquals(movie1, null);
     }
 
 
