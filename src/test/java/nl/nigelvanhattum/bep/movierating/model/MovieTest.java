@@ -33,4 +33,30 @@ public class MovieTest {
         movie.setReleaseDate(releaseDate);
         Assert.assertEquals(releaseDate, movie.getReleaseDate());
     }
+
+    @Test
+    public void testEquals() {
+        Movie movie1 = new Movie();
+        movie1.setName("The Godfather");
+        movie1.setReleaseDate("1972-03-24");
+        movie1.setRating(9.2);
+
+        Movie movie2 = new Movie();
+        movie2.setName("The Godfather");
+        movie2.setReleaseDate("1972-03-24");
+        movie2.setRating(9.2);
+
+        Assert.assertEquals(movie1, movie2);
+    }
+
+    @Test
+    public void testHashCode() {
+        Integer expectedHash = 2066219782;
+        Movie movie1 = new Movie();
+        movie1.setName("The Godfather");
+        movie1.setReleaseDate("1972-03-24");
+        movie1.setRating(9.2);
+
+        Assert.assertEquals(expectedHash, movie1.hashCode(), 0);
+    }
 }
