@@ -1,0 +1,12 @@
+<MovieRatings>
+    <MovieRating>
+        <Name>The Shawshank Redemption</Name>
+        <ReleaseDate>1994-10-14</ReleaseDate>
+        <Rating>8.0</Rating>
+    </MovieRating>
+    <MovieRating>
+        <Name>The Godfather</Name>
+        <ReleaseDate>1972-03-24</ReleaseDate>
+        <Rating>6.5</Rating>
+    </MovieRating>
+</MovieRatings>
