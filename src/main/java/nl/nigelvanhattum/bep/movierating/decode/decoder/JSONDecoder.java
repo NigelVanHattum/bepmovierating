@@ -13,14 +13,12 @@ public class JSONDecoder implements Decoder{
     @Override
     public List<Movie> decode(String input) {
         Gson gson = new Gson();
-        List<Movie> movies = gson.fromJson(input, new TypeToken<List<Movie>>(){}.getType());
-        return movies;
+        return gson.fromJson(input, new TypeToken<List<Movie>>(){}.getType());
     }
 
     @Override
     public List<Movie> decodeFromStream(InputStreamReader reader) {
         Gson gson = new Gson();
-        List<Movie> movies = gson.fromJson(reader, new TypeToken<List<Movie>>(){}.getType());
-        return movies;
+        return gson.fromJson(reader, new TypeToken<List<Movie>>(){}.getType());
     }
 }
