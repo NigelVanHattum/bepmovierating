@@ -50,6 +50,16 @@ public class MovieTest {
     }
 
     @Test
+    public void testExactEquals() {
+        Movie movie1 = new Movie();
+        movie1.setName("The Godfather");
+        movie1.setReleaseDate("1972-03-24");
+        movie1.setRating(9.2);
+
+        Assert.assertEquals(movie1, movie1);
+    }
+
+    @Test
     public void testWrongClassEquals() {
         Movie movie1 = new Movie();
         movie1.setName("The Godfather");
