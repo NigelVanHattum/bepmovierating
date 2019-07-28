@@ -2,6 +2,8 @@ package nl.nigelvanhattum.bep.movierating.encode;
 
 import nl.nigelvanhattum.bep.movierating.encode.encoder.Encoder;
 import nl.nigelvanhattum.bep.movierating.encode.encoder.JSONEncoder;
+import nl.nigelvanhattum.bep.movierating.encode.encoder.XMLEncoder;
+
 public class EncoderFactory {
 
     private  EncoderFactory(){}
@@ -10,7 +12,7 @@ public class EncoderFactory {
 
         switch (type) {
             case JSON: return new JSONEncoder();
-            case XML: throw new UnsupportedOperationException(String.format("%s encoder is not yet inplemented", type));//return new XMLEncoder();
+            case XML: return new XMLEncoder();
             default: throw new UnsupportedOperationException(String.format("%s encoder is not yet inplemented", type));
         }
     }
@@ -19,7 +21,7 @@ public class EncoderFactory {
 
         switch (type.toUpperCase()) {
             case "JSON": return new JSONEncoder();
-            case "XML": throw new UnsupportedOperationException(String.format("%s encoder is not yet inplemented", type));//return new XMLEncoder();
+            case "XML": return new XMLEncoder();
             default: throw new UnsupportedOperationException(String.format("%s encoder is not yet inplemented", type));
         }
     }
