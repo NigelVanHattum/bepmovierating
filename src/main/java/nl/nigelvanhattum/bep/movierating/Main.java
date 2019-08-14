@@ -9,6 +9,8 @@ import nl.nigelvanhattum.bep.movierating.model.Movie;
 import org.apache.commons.cli.*;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -58,8 +60,10 @@ public class Main {
 
             if(outputFile.exists()) {
                 logger.log(Level.WARNING, "Found existing file, overwriting it.");
-                outputFile.delete();
-                outputFile.createNewFile();
+                deleteFile(outputFile.toPath());
+                if(outputFile.createNewFile()) {
+                        logger.log(Level.INFO, "{0} overwritten", outputFile.getAbsolutePath());
+                    }
             }
 
         } catch (Exception e) {
@@ -72,20 +76,18 @@ public class Main {
         movies.addAll(decodeJSONFiles(jsonFiles));
 
         saveOutput(movies, toString, outputFile);
-        String s = "";
 
     }
 
     static List<Movie> decodeJSONFiles(String[] files) {
         List<Movie> movies = new ArrayList<>();
         for(String jsonFile : files) {
-            logger.fine(String.format("Decoding %s...", jsonFile));
+            logger.log(Level.FINE, () ->String.format("Decoding %s...", jsonFile));
             Decoder decoder = DecoderFactory.getDecoder(DecoderType.JSON);
             File file = new File(jsonFile);
-            try {
-                InputStream targetStream = new FileInputStream(file);
+            try (InputStream targetStream = new FileInputStream(file)){
                 movies.addAll(decoder.decodeFromStream(new InputStreamReader(targetStream)));
-            } catch (FileNotFoundException e) {
+            } catch (IOException e) {
                 logger.log(Level.SEVERE, e.getMessage());
             }
         }
@@ -95,11 +97,11 @@ public class Main {
     static void saveOutput(List<Movie> movies, String outputEncoding, File outputFile) {
         Encoder encoder = EncoderFactory.getEncoder(outputEncoding);
         try {
-            logger.info(String.format("Starting export to %s using %s", outputFile.getAbsolutePath(), outputEncoding));
+            logger.log(Level.INFO, () ->"Starting export to " + outputFile.getAbsolutePath() + "using "+ outputEncoding);
             OutputStream outputStream = new FileOutputStream(outputFile);
             encoder.encodeStream(movies, outputStream);
         } catch (FileNotFoundException e) {
-            logger.log(Level.SEVERE, String.format("Could not find %s...", outputFile.getAbsolutePath()));
+            logger.log(Level.SEVERE, () ->"Could not find " + outputFile.getAbsolutePath());
             logger.log(Level.SEVERE, "Error during export, exiting now...");
             System.exit(1);
         } catch (IOException e) {
@@ -107,6 +109,10 @@ public class Main {
             logger.log(Level.SEVERE, "Error during export, exiting now...");
             System.exit(1);
         }
+    }
+
+    static void deleteFile(Path path) throws IOException{
+        Files.delete(path);
     }
 
 }

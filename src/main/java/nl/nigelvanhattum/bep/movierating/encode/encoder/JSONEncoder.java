@@ -7,15 +7,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class JSONEncoder implements Encoder {
-    private Logger logger;
-
-    public JSONEncoder() {
-        logger = Logger.getLogger(getClass().getName());
-    }
 
     @Override
     public String encode(List<Movie> movies) {
