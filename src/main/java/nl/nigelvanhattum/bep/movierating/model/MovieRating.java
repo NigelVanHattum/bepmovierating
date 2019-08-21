@@ -2,7 +2,7 @@ package nl.nigelvanhattum.bep.movierating.model;
 
 import java.util.Objects;
 
-public class Movie {
+public class MovieRating {
     private String name;
     private String releaseDate;
     private double rating;
@@ -35,10 +35,10 @@ public class Movie {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Movie movie = (Movie) o;
-        return Double.compare(movie.rating, rating) == 0 &&
-                name.equals(movie.name) &&
-                releaseDate.equals(movie.releaseDate);
+        MovieRating movieRating = (MovieRating) o;
+        return Double.compare(movieRating.rating, rating) == 0 &&
+                name.equals(movieRating.name) &&
+                releaseDate.equals(movieRating.releaseDate);
     }
 
     @Override

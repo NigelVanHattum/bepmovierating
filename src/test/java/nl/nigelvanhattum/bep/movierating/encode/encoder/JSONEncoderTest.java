@@ -2,7 +2,7 @@ package nl.nigelvanhattum.bep.movierating.encode.encoder;
 
 import nl.nigelvanhattum.bep.movierating.encode.EncoderFactory;
 import nl.nigelvanhattum.bep.movierating.encode.EncoderType;
-import nl.nigelvanhattum.bep.movierating.model.Movie;
+import nl.nigelvanhattum.bep.movierating.model.MovieRating;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,36 +16,36 @@ import java.util.List;
 public class JSONEncoderTest {
     private static final String expectedJSON = "[{\"name\":\"The Shawshank Redemption\",\"releaseDate\":\"1994-10-14\",\"rating\":9.2},{\"name\":\"The Shawshank Redemption\",\"releaseDate\":\"1994-10-14\",\"rating\":9.2},{\"name\":\"Pirates of the Caribbean: The Curse of the Black Pearl\",\"releaseDate\":\"2003-07-09\",\"rating\":8.0}]";
     Encoder encoder;
-    List<Movie> baseMovies;
+    List<MovieRating> baseMovieRatings;
 
     @Before
     public void getEncoder() {
         encoder = EncoderFactory.getEncoder(EncoderType.JSON);
 
-        baseMovies = new ArrayList<>();
+        baseMovieRatings = new ArrayList<>();
 
-        Movie movie1 = new Movie();
-        movie1.setName("The Shawshank Redemption");
-        movie1.setReleaseDate("1994-10-14");
-        movie1.setRating(9.2);
-        baseMovies.add(movie1);
+        MovieRating movieRating1 = new MovieRating();
+        movieRating1.setName("The Shawshank Redemption");
+        movieRating1.setReleaseDate("1994-10-14");
+        movieRating1.setRating(9.2);
+        baseMovieRatings.add(movieRating1);
 
-        Movie movie2 = new Movie();
-        movie2.setName("The Godfather");
-        movie2.setReleaseDate("1972-03-24");
-        movie2.setRating(9.2);
-        baseMovies.add(movie1);
+        MovieRating movieRating2 = new MovieRating();
+        movieRating2.setName("The Godfather");
+        movieRating2.setReleaseDate("1972-03-24");
+        movieRating2.setRating(9.2);
+        baseMovieRatings.add(movieRating1);
 
-        Movie movie3 = new Movie();
-        movie3.setName("Pirates of the Caribbean: The Curse of the Black Pearl");
-        movie3.setReleaseDate("2003-07-09");
-        movie3.setRating(8.0);
-        baseMovies.add(movie3);
+        MovieRating movieRating3 = new MovieRating();
+        movieRating3.setName("Pirates of the Caribbean: The Curse of the Black Pearl");
+        movieRating3.setReleaseDate("2003-07-09");
+        movieRating3.setRating(8.0);
+        baseMovieRatings.add(movieRating3);
     }
 
     @Test
     public void testEncode() {
-        String encodedString = encoder.encode(baseMovies);
+        String encodedString = encoder.encode(baseMovieRatings);
         Assert.assertEquals(expectedJSON, encodedString);
     }
 
@@ -53,7 +53,7 @@ public class JSONEncoderTest {
     public void testEncodeStream() {
         OutputStream outputStream = new ByteArrayOutputStream();
         try {
-            encoder.encodeStream(baseMovies, outputStream);
+            encoder.encodeStream(baseMovieRatings, outputStream);
         } catch (IOException e) {
             Assert.fail(e.getMessage());
         }

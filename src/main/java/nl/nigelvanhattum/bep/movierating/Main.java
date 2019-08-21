@@ -5,7 +5,7 @@ import nl.nigelvanhattum.bep.movierating.decode.DecoderType;
 import nl.nigelvanhattum.bep.movierating.decode.decoder.Decoder;
 import nl.nigelvanhattum.bep.movierating.encode.EncoderFactory;
 import nl.nigelvanhattum.bep.movierating.encode.encoder.Encoder;
-import nl.nigelvanhattum.bep.movierating.model.Movie;
+import nl.nigelvanhattum.bep.movierating.model.MovieRating;
 import org.apache.commons.cli.*;
 
 import java.io.*;
@@ -72,34 +72,34 @@ public class Main {
             System.exit(1);
         }
 
-        List<Movie> movies = new ArrayList<>();
-        movies.addAll(decodeJSONFiles(jsonFiles));
+        List<MovieRating> movieRatings = new ArrayList<>();
+        movieRatings.addAll(decodeJSONFiles(jsonFiles));
 
-        saveOutput(movies, outputEncoding, outputFile);
+        saveOutput(movieRatings, outputEncoding, outputFile);
 
     }
 
-    static List<Movie> decodeJSONFiles(String[] files) {
-        List<Movie> movies = new ArrayList<>();
+    static List<MovieRating> decodeJSONFiles(String[] files) {
+        List<MovieRating> movieRatings = new ArrayList<>();
         for(String jsonFile : files) {
             logger.log(Level.FINE, () ->String.format("Decoding %s...", jsonFile));
             Decoder decoder = DecoderFactory.getDecoder(DecoderType.JSON);
             File file = new File(jsonFile);
             try (InputStream targetStream = new FileInputStream(file)){
-                movies.addAll(decoder.decodeFromStream(new InputStreamReader(targetStream)));
+                movieRatings.addAll(decoder.decodeFromStream(new InputStreamReader(targetStream)));
             } catch (IOException e) {
                 logger.log(Level.SEVERE, e.getMessage());
             }
         }
-        return movies;
+        return movieRatings;
     }
 
-    static void saveOutput(List<Movie> movies, String outputEncoding, File outputFile) {
+    static void saveOutput(List<MovieRating> movieRatings, String outputEncoding, File outputFile) {
         Encoder encoder = EncoderFactory.getEncoder(outputEncoding);
         try {
             logger.log(Level.INFO, () ->"Starting export to " + outputFile.getAbsolutePath() + "using "+ outputEncoding);
             OutputStream outputStream = new FileOutputStream(outputFile);
-            encoder.encodeStream(movies, outputStream);
+            encoder.encodeStream(movieRatings, outputStream);
         } catch (FileNotFoundException e) {
             logger.log(Level.SEVERE, () ->"Could not find " + outputFile.getAbsolutePath());
             logger.log(Level.SEVERE, "Error during export, exiting now...");

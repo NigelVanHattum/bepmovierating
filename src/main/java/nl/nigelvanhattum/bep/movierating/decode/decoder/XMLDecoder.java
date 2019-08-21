@@ -1,6 +1,6 @@
 package nl.nigelvanhattum.bep.movierating.decode.decoder;
 
-import nl.nigelvanhattum.bep.movierating.model.Movie;
+import nl.nigelvanhattum.bep.movierating.model.MovieRating;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -12,13 +12,13 @@ import java.util.List;
 
 public class XMLDecoder implements Decoder {
     @Override
-    public List<Movie> decode(String input) {
+    public List<MovieRating> decode(String input) {
         JAXBContext context;
         try {
-            context = JAXBContext.newInstance(Movie.class);
+            context = JAXBContext.newInstance(MovieRating.class);
             Unmarshaller m = context.createUnmarshaller();
             StreamSource source = new StreamSource(new StringReader(input));
-            m.unmarshal(source, Movie.class).getValue();
+            m.unmarshal(source, MovieRating.class).getValue();
         } catch (JAXBException e) {
             e.printStackTrace();
             return null;
@@ -27,7 +27,7 @@ public class XMLDecoder implements Decoder {
     }
 
     @Override
-    public List<Movie> decodeFromStream(InputStreamReader reader) {
+    public List<MovieRating> decodeFromStream(InputStreamReader reader) {
         throw new UnsupportedOperationException("This decoder is not yet implemented");
     }
 }
