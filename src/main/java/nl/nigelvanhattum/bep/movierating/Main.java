@@ -41,7 +41,7 @@ public class Main {
         CommandLine cmd;
         String[] jsonFiles = null;
         String[] xmlFiles = null;
-        String toString = null;
+        String outputEncoding = null;
         String outputLocation = null;
         File outputFile = null;
 
@@ -49,10 +49,10 @@ public class Main {
             cmd = parser.parse(options, args);
             jsonFiles = cmd.getOptionValues("jsonInput");
             xmlFiles = cmd.getOptionValues("xmlInput");
-            toString = cmd.getOptionValue("encodeTo");
+            outputEncoding = cmd.getOptionValue("encodeTo");
 
             if(jsonFiles == null && xmlFiles == null) {
-                throw new IllegalArgumentException("no input files a given");
+                throw new IllegalArgumentException("no input files are given");
             }
 
             outputLocation = args[args.length -1];
@@ -75,7 +75,7 @@ public class Main {
         List<Movie> movies = new ArrayList<>();
         movies.addAll(decodeJSONFiles(jsonFiles));
 
-        saveOutput(movies, toString, outputFile);
+        saveOutput(movies, outputEncoding, outputFile);
 
     }
 
