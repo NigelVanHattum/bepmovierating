@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.xml.bind.JAXBException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -63,7 +64,12 @@ public class XMLEncoderTest {
 
     @Test
     public void testEncode() {
-        String encodedString = encoder.encode(baseMovieRatings);
+        String encodedString = null;
+        try {
+            encodedString = encoder.encode(baseMovieRatings);
+        } catch (JAXBException e) {
+            Assert.fail(e.getMessage());
+        }
         Assert.assertEquals(expectedXML, encodedString);
     }
 
@@ -72,7 +78,7 @@ public class XMLEncoderTest {
         OutputStream outputStream = new ByteArrayOutputStream();
         try {
             encoder.encodeStream(baseMovieRatings, outputStream);
-        } catch (IOException e) {
+        } catch (IOException | JAXBException e) {
             Assert.fail(e.getMessage());
         }
 
