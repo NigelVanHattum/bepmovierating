@@ -4,13 +4,10 @@ import nl.nigelvanhattum.bep.movierating.model.MovieRating;
 import nl.nigelvanhattum.bep.movierating.model.MovieRatings;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.namespace.QName;
 import java.io.OutputStream;
 import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
