@@ -9,7 +9,6 @@ import javax.xml.bind.Marshaller;
 import java.io.OutputStream;
 import java.io.StringWriter;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class XMLEncoder implements Encoder {
