@@ -55,7 +55,7 @@ public class XMLDecoder implements Decoder {
             return container.getMovieRatings();
         } catch (JAXBException jaxE) {
             logger.log(Level.SEVERE, "Error during decoding, skipping...");
-            logger.log(Level.SEVERE, () -> jaxE.getMessage());
+            logger.log(Level.SEVERE, jaxE.getMessage());
             return new ArrayList<>();
         }
     }
