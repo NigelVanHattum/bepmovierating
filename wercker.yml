@@ -19,7 +19,7 @@ build:
           <servers><server><id>packagecloud-myrepo</id><password>'$MAVEN_API_KEY'</password></server></servers>
           </settings>' > my-settings.xml
     - wercker/maven: openjdk:11-jdk
-      goals: assembly:single deploy
+      goals: assembly:single 
       settings: my-settings.xml
       cache_repo: true
       version: 3.5.2
