@@ -12,43 +12,31 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class XMLEncoder implements Encoder{
+public class XMLEncoder implements Encoder {
 
     static Logger logger = Logger.getLogger(XMLEncoder.class.getName());
+
     @Override
-    public String encode(List<MovieRating> movies) {
+    public String encode(List<MovieRating> movies) throws JAXBException {
         MovieRatings root = new MovieRatings();
         root.setMovieRatings(movies);
-
-        try {
-            JAXBContext context = JAXBContext.newInstance(MovieRatings.class);
-            Marshaller marshaller = context.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            StringWriter writer = new StringWriter();
-            marshaller.marshal(root, writer);
-            return writer.toString();
-        } catch (JAXBException e) {
-            logger.log(Level.SEVERE, "Error during export, exiting now...");
-            System.exit(1);
-        }
-        return null;
+        JAXBContext context = JAXBContext.newInstance(MovieRatings.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        StringWriter writer = new StringWriter();
+        marshaller.marshal(root, writer);
+        return writer.toString();
     }
 
     @Override
-    public OutputStream encodeStream(List<MovieRating> movieRatings, OutputStream outputStream) {
+    public OutputStream encodeStream(List<MovieRating> movieRatings, OutputStream outputStream) throws JAXBException {
         MovieRatings root = new MovieRatings();
         root.setMovieRatings(movieRatings);
 
-        try {
-            JAXBContext context = JAXBContext.newInstance(MovieRatings.class);
-            Marshaller marshaller = context.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            marshaller.marshal(root, outputStream);
-            return outputStream;
-        } catch (JAXBException e) {
-            logger.log(Level.SEVERE, "Error during export, exiting now...");
-            System.exit(1);
-        }
-        return null;
+        JAXBContext context = JAXBContext.newInstance(MovieRatings.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        marshaller.marshal(root, outputStream);
+        return outputStream;
     }
 }
