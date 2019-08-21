@@ -104,7 +104,7 @@ public class Main {
             logger.log(Level.SEVERE, () ->"Could not find " + outputFile.getAbsolutePath());
             logger.log(Level.SEVERE, "Error during export, exiting now...");
             System.exit(1);
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage());
             logger.log(Level.SEVERE, "Error during export, exiting now...");
             System.exit(1);
