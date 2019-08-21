@@ -1,10 +1,18 @@
 package nl.nigelvanhattum.bep.movierating.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class MovieRating {
+
+    @XmlElement(name = "Name")
     private String name;
+    @XmlElement(name = "ReleaseDate")
     private String releaseDate;
+    @XmlElement(name = "Rating")
     private double rating;
 
     public String getName() {
