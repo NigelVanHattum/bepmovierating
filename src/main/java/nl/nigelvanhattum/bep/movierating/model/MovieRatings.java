@@ -12,15 +12,13 @@ import java.util.List;
 public class MovieRatings {
 
     @XmlElement(name = "MovieRating")
-    List<MovieRating> movieRatings = new ArrayList<>();
-
-    public MovieRatings(){}
+    List<MovieRating> movies = new ArrayList<>();
 
     public void setMovieRatings(List<MovieRating> movies) {
-        this.movieRatings = movies;
+        this.movies = movies;
     }
 
     public List<MovieRating> getMovieRatings() {
-        return movieRatings;
+        return movies;
     }
 }
