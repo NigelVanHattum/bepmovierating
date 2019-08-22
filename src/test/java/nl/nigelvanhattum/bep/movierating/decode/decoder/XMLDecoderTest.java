@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.xml.stream.XMLStreamException;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,7 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class XMLDecoderTest {
-
+    private static final String encodedRandomXML = "\"<MovieRatings>\\n\" +\n" +
+            "            \"    <MovieRating>\\n\" +\n" +
+            "            \"        <Name>The Shawshank Redemption</Name>\\n\" +\n" +
+            "            \"        <ReleaseDate>1994-10-14</ReleaseDate>\\n\" +\n" +
+            "            \"        <Rating>9.2</Rating>\\n\" +\n" +
+            "            \"    </MovieRating>\\n\" +" +
+            "</MovieRatings>";
+    private static final String encodedJSONString = "[{\"name\":\"The Shawshank Redemption\",\"releaseDate\":\"1994-10-14\",\"rating\":9.2},{\"name\":\"The Shawshank Redemption\",\"releaseDate\":\"1994-10-14\",\"rating\":9.2},{\"name\":\"Pirates of the Caribbean: The Curse of the Black Pearl\",\"releaseDate\":\"2003-07-09\",\"rating\":8.0}]";
     private static final String encodedString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
             "<MovieRatings>\n" +
             "    <MovieRating>\n" +
@@ -72,5 +80,19 @@ public class XMLDecoderTest {
         InputStream inputStream = new ByteArrayInputStream( encodedString.getBytes() );
         List<MovieRating> decodedMovieRatings = decoder.decodeFromStream(new InputStreamReader(inputStream));
         Assert.assertEquals(expectedMovieRatings, decodedMovieRatings);
+    }
+
+    @Test
+    public void testStreamDecoderJSONInput() {
+        InputStream inputStream = new ByteArrayInputStream( encodedJSONString.getBytes() );
+        List<MovieRating> decodedMovieRatings = decoder.decodeFromStream(new InputStreamReader(inputStream));
+        Assert.assertTrue(decodedMovieRatings.isEmpty());
+    }
+
+    @Test
+    public void testStreamDecoderRandomXML() {
+        InputStream inputStream = new ByteArrayInputStream( encodedRandomXML.getBytes() );
+        List<MovieRating> decodedMovieRatings = decoder.decodeFromStream(new InputStreamReader(inputStream));
+        Assert.assertTrue(decodedMovieRatings.isEmpty());
     }
 }

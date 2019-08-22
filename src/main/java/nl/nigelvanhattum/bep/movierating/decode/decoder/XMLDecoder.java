@@ -45,7 +45,7 @@ public class XMLDecoder implements Decoder {
             xmlStreamReader = factory.createXMLStreamReader(reader);
         } catch (XMLStreamException e) {
             logger.log(Level.SEVERE, "Error during decoding, skipping...");
-            logger.log(Level.SEVERE, e.getMessage());
+            logger.log(Level.SEVERE, e.getCause().toString());
             return new ArrayList<>();
         }
         try {
@@ -55,7 +55,7 @@ public class XMLDecoder implements Decoder {
             return container.getMovieRatings();
         } catch (JAXBException jaxE) {
             logger.log(Level.SEVERE, "Error during decoding, skipping...");
-            logger.log(Level.SEVERE, jaxE.getMessage());
+            logger.log(Level.SEVERE, jaxE.getCause().toString());
             return new ArrayList<>();
         }
     }
