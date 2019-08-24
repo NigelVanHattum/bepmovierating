@@ -11,52 +11,35 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class XMLDecoder implements Decoder {
     Logger logger = Logger.getLogger(XMLDecoder.class.getName());
+
     @Override
-    public List<MovieRating> decode(String input) {
+    public List<MovieRating> decode(String input) throws JAXBException {
         JAXBContext context;
-        try {
-            context = JAXBContext.newInstance(MovieRatings.class);
-            Unmarshaller unmarshaller = context.createUnmarshaller();
-            StreamSource source = new StreamSource(new StringReader(input));
-            MovieRatings container = unmarshaller.unmarshal(source, MovieRatings.class).getValue();
-            return container.getMovieRatings();
-        } catch (JAXBException jaxE) {
-            logger.log(Level.SEVERE, "Error during decoding, skipping..");
-            logger.log(Level.SEVERE, jaxE.getMessage());
-            return new ArrayList<>();
-        }
+
+        context = JAXBContext.newInstance(MovieRatings.class);
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+        StreamSource source = new StreamSource(new StringReader(input));
+        MovieRatings container = unmarshaller.unmarshal(source, MovieRatings.class).getValue();
+        return container.getMovieRatings();
     }
 
     @Override
-    public List<MovieRating> decodeFromStream(InputStreamReader reader) {
+    public List<MovieRating> decodeFromStream(InputStreamReader reader) throws JAXBException, XMLStreamException {
         JAXBContext context;
-        XMLStreamReader xmlStreamReader= null;
+        XMLStreamReader xmlStreamReader = null;
         XMLInputFactory factory = XMLInputFactory.newFactory();
         factory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);
         factory.setProperty(XMLInputFactory.SUPPORT_DTD, Boolean.FALSE);
-        try {
-            xmlStreamReader = factory.createXMLStreamReader(reader);
-        } catch (XMLStreamException e) {
-            logger.log(Level.SEVERE, "Error during decoding, skipping...");
-            logger.log(Level.SEVERE, e.getCause().toString());
-            return new ArrayList<>();
-        }
-        try {
-            context = JAXBContext.newInstance(MovieRatings.class);
-            Unmarshaller unmarshaller = context.createUnmarshaller();
-            MovieRatings container = unmarshaller.unmarshal(xmlStreamReader, MovieRatings.class).getValue();
-            return container.getMovieRatings();
-        } catch (JAXBException jaxE) {
-            logger.log(Level.SEVERE, "Error during decoding, skipping...");
-            logger.log(Level.SEVERE, jaxE.getCause().toString());
-            return new ArrayList<>();
-        }
+
+        xmlStreamReader = factory.createXMLStreamReader(reader);
+        context = JAXBContext.newInstance(MovieRatings.class);
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+        MovieRatings container = unmarshaller.unmarshal(xmlStreamReader, MovieRatings.class).getValue();
+        return container.getMovieRatings();
     }
 }

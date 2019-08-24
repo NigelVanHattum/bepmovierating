@@ -7,6 +7,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.xml.bind.JAXBException;
+import javax.xml.stream.XMLStreamException;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -43,13 +45,13 @@ public class JSONDecoderTest {
     }
 
     @Test
-    public void testStringDecode() {
+    public void testStringDecode() throws JAXBException {
         List<MovieRating> decodedMovieRatings = decoder.decode(encodedString);
         Assert.assertEquals(expectedMovieRatings, decodedMovieRatings);
     }
 
     @Test
-    public void testStreamDecoder() {
+    public void testStreamDecoder() throws JAXBException, XMLStreamException {
         InputStream inputStream = new ByteArrayInputStream( encodedString.getBytes() );
         List<MovieRating> decodedMovieRatings = decoder.decodeFromStream(new InputStreamReader(inputStream));
         Assert.assertEquals(expectedMovieRatings, decodedMovieRatings);
