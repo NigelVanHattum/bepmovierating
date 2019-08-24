@@ -58,23 +58,23 @@ public class Main {
     }
 
     static HashMap<String, String[]> parseOptions(Options options, String[] args) {
-        HashMap<String, String[]> return_value = new HashMap<>();
+        HashMap<String, String[]> returnValue = new HashMap<>();
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd;
 
         String[] jsonFiles = null;
         String[] xmlFiles = null;
-        String outputEncoding[] = null;
+        String[] outputEncoding = null;
         String outputLocation = null;
 
         try {
             cmd = parser.parse(options, args);
             jsonFiles = cmd.getOptionValues("jsonInput");
-            return_value.put(HASHMAPKEYJSON, jsonFiles);
+            returnValue.put(HASHMAPKEYJSON, jsonFiles);
             xmlFiles = cmd.getOptionValues("xmlInput");
-            return_value.put(HASHMAPKEYXML, xmlFiles);
+            returnValue.put(HASHMAPKEYXML, xmlFiles);
             outputEncoding = cmd.getOptionValues("encodeTo");
-            return_value.put(HASHMAPKEYTO, outputEncoding);
+            returnValue.put(HASHMAPKEYTO, outputEncoding);
 
             outputLocation = args[args.length - 1];
             if (arrayContains(jsonFiles, outputLocation) || arrayContains(xmlFiles, outputLocation) || arrayContains(outputEncoding, outputLocation)) {
@@ -83,7 +83,7 @@ public class Main {
                 System.exit(1);
             }
             String[] outputLocationArray = {outputLocation};
-            return_value.put(HASHMAPKEYOUTPUT, outputLocationArray);
+            returnValue.put(HASHMAPKEYOUTPUT, outputLocationArray);
 
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.getCause().toString());
@@ -92,19 +92,17 @@ public class Main {
         }
 
 
-        return return_value;
+        return returnValue;
     }
 
     static List<MovieRating> decodeFiles(String[] files, DecoderType type) {
         if (files == null) {
-            return new ArrayList<MovieRating>();
+            return new ArrayList<>();
         }
         List<MovieRating> movieRatings = new ArrayList<>();
         for (String file : files) {
             logger.log(Level.FINE, () -> String.format("Decoding %s...", file));
             Decoder decoder = DecoderFactory.getDecoder(type);
-            File f = new File(file);
-            System.out.println(f.getAbsolutePath());
             try (InputStream targetStream = new FileInputStream(file)) {
                 movieRatings.addAll(decoder.decodeFromStream(new InputStreamReader(targetStream)));
             } catch (IOException | JAXBException | XMLStreamException | NullPointerException e) {
