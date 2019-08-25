@@ -34,6 +34,6 @@ sonar:
 pit:
   steps:
     - wercker/maven: openjdk:11-jdk
-      goals: org.pitest:pitest-maven:mutationCoverage
+      goals: clean package org.pitest:pitest-maven:mutationCoverage
       cache_repo: true
       version: 3.5.2
