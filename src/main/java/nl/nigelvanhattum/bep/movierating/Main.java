@@ -47,13 +47,9 @@ public class Main {
         if (outputFile.exists()) {
             logger.log(Level.WARNING, "Found existing file, overwriting it.");
             deleteFile(outputFile.toPath());
-            if (outputFile.createNewFile()) {
-                logger.log(Level.INFO, "{0} overwritten", outputFile.getAbsolutePath());
-            }
-        } else {
-            if(outputFile.createNewFile()) {
-                logger.log(Level.INFO, "{0} overwritten", outputFile.getAbsolutePath());
-            }
+        }
+        if (outputFile.createNewFile()) {
+            logger.log(Level.INFO, "{0} overwritten", outputFile.getAbsolutePath());
         }
     }
 
@@ -124,7 +120,7 @@ public class Main {
         Encoder encoder = EncoderFactory.getEncoder(outputEncoding);
         try (
                 OutputStream outputStream = new FileOutputStream(outputFile);
-        ){
+        ) {
             logger.log(Level.INFO, () -> "Starting export to " + outputFile.getAbsolutePath() + " using " + outputEncoding);
 
             encoder.encodeStream(movieRatings, outputStream);
