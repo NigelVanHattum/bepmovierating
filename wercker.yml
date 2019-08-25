@@ -30,3 +30,10 @@ sonar:
       goals: clean package sonar:sonar -Dmaven.test.failure.ignore=true -Dsonar.host.url=https://sonar.nigelvanhattum.nl -Dsonar.login=$SONAR_IO_AUTH
       cache_repo: true
       version: 3.5.2
+
+pit:
+  steps:
+    - wercker/maven: openjdk:11-jdk
+      goals: org.pitest:pitest-maven:mutationCoverage
+      cache_repo: true
+      version: 3.5.2
