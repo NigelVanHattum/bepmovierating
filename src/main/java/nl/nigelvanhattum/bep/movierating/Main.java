@@ -5,20 +5,141 @@ import nl.nigelvanhattum.bep.movierating.decode.DecoderType;
 import nl.nigelvanhattum.bep.movierating.decode.decoder.Decoder;
 import nl.nigelvanhattum.bep.movierating.encode.EncoderFactory;
 import nl.nigelvanhattum.bep.movierating.encode.encoder.Encoder;
-import nl.nigelvanhattum.bep.movierating.model.Movie;
+import nl.nigelvanhattum.bep.movierating.model.MovieRating;
 import org.apache.commons.cli.*;
 
+import javax.xml.bind.JAXBException;
+import javax.xml.stream.XMLStreamException;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Main {
-    static Logger logger;
+    static Logger logger = Logger.getLogger(Main.class.getName());
+    private static HelpFormatter formatter = new HelpFormatter();
+    static final String HASHMAPKEYJSON = "json";
+    static final String HASHMAPKEYXML = "xml";
+    static final String HASHMAPKEYTO = "to";
+    static final String HASHMAPKEYOUTPUT = "output";
 
     public static void main(String[] args) throws Exception {
-        logger = Logger.getLogger(Main.class.getName());
+
+        Options options = registerOptions();
+
+        HashMap<String, String[]> parsedParameters = parseOptions(options, args);
+        if (parsedParameters.get(HASHMAPKEYJSON) == null && parsedParameters.get(HASHMAPKEYXML) == null) {
+            throw new IllegalArgumentException("no input files are given");
+        }
+
+
+        File outputFile = new File(parsedParameters.get(HASHMAPKEYOUTPUT)[0]);
+        overWriteIfNeeded(outputFile);
+
+        saveOutput(processFiles(parsedParameters), parsedParameters.get(HASHMAPKEYTO)[0], outputFile);
+    }
+
+    static void overWriteIfNeeded(File outputFile) throws IOException {
+        if (outputFile.exists()) {
+            logger.log(Level.WARNING, "Found existing file, overwriting it.");
+            deleteFile(outputFile.toPath());
+        }
+        if (outputFile.createNewFile()) {
+            logger.log(Level.INFO, "{0} overwritten", outputFile.getAbsolutePath());
+        }
+    }
+
+    static List<MovieRating> processFiles(HashMap<String, String[]> files) {
+        List<MovieRating> movieRatings = new ArrayList<>();
+        movieRatings.addAll(decodeFiles(files.get(HASHMAPKEYJSON), DecoderType.JSON));
+        movieRatings.addAll(decodeFiles(files.get(HASHMAPKEYXML), DecoderType.XML));
+
+        return movieRatings;
+    }
+
+    static HashMap<String, String[]> parseOptions(Options options, String[] args) {
+        HashMap<String, String[]> returnValue = new HashMap<>();
+        CommandLineParser parser = new DefaultParser();
+        CommandLine cmd;
+
+        String[] jsonFiles = null;
+        String[] xmlFiles = null;
+        String[] outputEncoding = null;
+        String outputLocation = null;
+
+        try {
+            cmd = parser.parse(options, args);
+            jsonFiles = cmd.getOptionValues("jsonInput");
+            returnValue.put(HASHMAPKEYJSON, jsonFiles);
+            xmlFiles = cmd.getOptionValues("xmlInput");
+            returnValue.put(HASHMAPKEYXML, xmlFiles);
+            outputEncoding = cmd.getOptionValues("encodeTo");
+            returnValue.put(HASHMAPKEYTO, outputEncoding);
+
+            outputLocation = args[args.length - 1];
+            if (arrayContains(jsonFiles, outputLocation) || arrayContains(xmlFiles, outputLocation) || arrayContains(outputEncoding, outputLocation)) {
+                logger.log(Level.SEVERE, "No output location given.");
+                formatter.printHelp("-json <file> -json <file> -xml <file> -xml <file> -to <xml-json> <output-file>", options);
+                System.exit(1);
+            }
+            String[] outputLocationArray = {outputLocation};
+            returnValue.put(HASHMAPKEYOUTPUT, outputLocationArray);
+
+        } catch (Exception e) {
+            formatter.printHelp("-json <file> -json <file> -xml <file> -xml <file> -to <xml-json> <output-file>", options);
+            System.exit(1);
+        }
+
+
+        return returnValue;
+    }
+
+    static List<MovieRating> decodeFiles(String[] files, DecoderType type) {
+        if (files == null) {
+            return new ArrayList<>();
+        }
+        List<MovieRating> movieRatings = new ArrayList<>();
+        for (String file : files) {
+            logger.log(Level.INFO, () -> String.format("Decoding %s...", new File(file).getAbsolutePath()));
+            Decoder decoder = DecoderFactory.getDecoder(type);
+            try (InputStream targetStream = new FileInputStream(file)) {
+                movieRatings.addAll(decoder.decodeFromStream(new InputStreamReader(targetStream)));
+            } catch (IOException | JAXBException | XMLStreamException | NullPointerException e) {
+                logger.log(Level.SEVERE, () -> String.format("Error during decoding of %s, skipping...", file));
+                logger.log(Level.SEVERE, e.getLocalizedMessage());
+            }
+        }
+        return movieRatings;
+    }
+
+    static void saveOutput(List<MovieRating> movieRatings, String outputEncoding, File outputFile) {
+        Encoder encoder = EncoderFactory.getEncoder(outputEncoding);
+        try (
+                OutputStream outputStream = new FileOutputStream(outputFile);
+        ) {
+            logger.log(Level.INFO, () -> "Starting export to " + outputFile.getAbsolutePath() + " using " + outputEncoding);
+
+            encoder.encodeStream(movieRatings, outputStream);
+        } catch (FileNotFoundException e) {
+            logger.log(Level.SEVERE, () -> "Could not find " + outputFile.getAbsolutePath());
+            logger.log(Level.SEVERE, "Error during export, exiting now...");
+            System.exit(1);
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.getCause().toString());
+            logger.log(Level.SEVERE, "Error during export, exiting now...");
+            System.exit(1);
+        }
+    }
+
+    static void deleteFile(Path path) throws IOException {
+        Files.delete(path);
+    }
+
+    static Options registerOptions() {
         Options options = new Options();
 
         Option jsonInput = new Option("json", "jsonInput", true, "input json-file path");
@@ -33,80 +154,19 @@ public class Main {
         output.setRequired(true);
         options.addOption(output);
 
-        CommandLineParser parser = new DefaultParser();
-        HelpFormatter formatter = new HelpFormatter();
-
-        CommandLine cmd;
-        String[] jsonFiles = null;
-        String[] xmlFiles = null;
-        String toString = null;
-        String outputLocation = null;
-        File outputFile = null;
-
-        try {
-            cmd = parser.parse(options, args);
-            jsonFiles = cmd.getOptionValues("jsonInput");
-            xmlFiles = cmd.getOptionValues("xmlInput");
-            toString = cmd.getOptionValue("encodeTo");
-
-            if(jsonFiles == null && xmlFiles == null) {
-                throw new IllegalArgumentException("no input files a given");
-            }
-
-            outputLocation = args[args.length -1];
-            outputFile = new File(outputLocation);
-
-            if(outputFile.exists()) {
-                logger.log(Level.WARNING, "Found existing file, overwriting it.");
-                outputFile.delete();
-                outputFile.createNewFile();
-            }
-
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, e.getMessage());
-            formatter.printHelp("utility-name", options);
-            System.exit(1);
-        }
-
-        List<Movie> movies = new ArrayList<>();
-        movies.addAll(decodeJSONFiles(jsonFiles));
-
-        saveOutput(movies, toString, outputFile);
-        String s = "";
-
+        return options;
     }
 
-    static List<Movie> decodeJSONFiles(String[] files) {
-        List<Movie> movies = new ArrayList<>();
-        for(String jsonFile : files) {
-            logger.fine(String.format("Decoding %s...", jsonFile));
-            Decoder decoder = DecoderFactory.getDecoder(DecoderType.JSON);
-            File file = new File(jsonFile);
-            try {
-                InputStream targetStream = new FileInputStream(file);
-                movies.addAll(decoder.decodeFromStream(new InputStreamReader(targetStream)));
-            } catch (FileNotFoundException e) {
-                logger.log(Level.SEVERE, e.getMessage());
+    public static boolean arrayContains(String[] array, String match) {
+        if (array == null) {
+            return false;
+        }
+        for (String string : array) {
+            if (string.equals(match)) {
+                return true;
             }
         }
-        return movies;
-    }
-
-    static void saveOutput(List<Movie> movies, String outputEncoding, File outputFile) {
-        Encoder encoder = EncoderFactory.getEncoder(outputEncoding);
-        try {
-            logger.info(String.format("Starting export to %s using %s", outputFile.getAbsolutePath(), outputEncoding));
-            OutputStream outputStream = new FileOutputStream(outputFile);
-            encoder.encodeStream(movies, outputStream);
-        } catch (FileNotFoundException e) {
-            logger.log(Level.SEVERE, String.format("Could not find %s...", outputFile.getAbsolutePath()));
-            logger.log(Level.SEVERE, "Error during export, exiting now...");
-            System.exit(1);
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, e.getMessage());
-            logger.log(Level.SEVERE, "Error during export, exiting now...");
-            System.exit(1);
-        }
+        return false;
     }
 
 }

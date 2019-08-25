@@ -14,14 +14,32 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JSONEncoderTest {
-    private static final String expectedJSON = "[{\"name\":\"The Shawshank Redemption\",\"releaseDate\":\"1994-10-14\",\"rating\":9.2},{\"name\":\"The Shawshank Redemption\",\"releaseDate\":\"1994-10-14\",\"rating\":9.2},{\"name\":\"Pirates of the Caribbean: The Curse of the Black Pearl\",\"releaseDate\":\"2003-07-09\",\"rating\":8.0}]";
+public class XMLEncoderTest {
+    private static final String expectedXML = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
+            "<MovieRatings>\n" +
+            "    <MovieRating>\n" +
+            "        <Name>The Shawshank Redemption</Name>\n" +
+            "        <ReleaseDate>1994-10-14</ReleaseDate>\n" +
+            "        <Rating>9.2</Rating>\n" +
+            "    </MovieRating>\n" +
+            "    <MovieRating>\n" +
+            "        <Name>The Shawshank Redemption</Name>\n" +
+            "        <ReleaseDate>1994-10-14</ReleaseDate>\n" +
+            "        <Rating>9.2</Rating>\n" +
+            "    </MovieRating>\n" +
+            "    <MovieRating>\n" +
+            "        <Name>Pirates of the Caribbean: The Curse of the Black Pearl</Name>\n" +
+            "        <ReleaseDate>2003-07-09</ReleaseDate>\n" +
+            "        <Rating>8.0</Rating>\n" +
+            "    </MovieRating>\n" +
+            "</MovieRatings>\n";
+
     Encoder encoder;
     List<MovieRating> baseMovieRatings;
 
     @Before
     public void getEncoder() {
-        encoder = EncoderFactory.getEncoder(EncoderType.JSON);
+        encoder = EncoderFactory.getEncoder(EncoderType.XML);
 
         baseMovieRatings = new ArrayList<>();
 
@@ -52,7 +70,7 @@ public class JSONEncoderTest {
         } catch (JAXBException e) {
             Assert.fail(e.getMessage());
         }
-        Assert.assertEquals(expectedJSON, encodedString);
+        Assert.assertEquals(expectedXML, encodedString);
     }
 
     @Test
@@ -66,6 +84,6 @@ public class JSONEncoderTest {
 
         String encodedString = outputStream.toString();
 
-        Assert.assertEquals(expectedJSON, encodedString);
+        Assert.assertEquals(expectedXML, encodedString);
     }
 }

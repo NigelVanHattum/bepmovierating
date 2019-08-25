@@ -1,10 +1,18 @@
 package nl.nigelvanhattum.bep.movierating.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import java.util.Objects;
 
-public class Movie {
+@XmlAccessorType(XmlAccessType.FIELD)
+public class MovieRating {
+
+    @XmlElement(name = "Name")
     private String name;
+    @XmlElement(name = "ReleaseDate")
     private String releaseDate;
+    @XmlElement(name = "Rating")
     private double rating;
 
     public String getName() {
@@ -35,10 +43,10 @@ public class Movie {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Movie movie = (Movie) o;
-        return Double.compare(movie.rating, rating) == 0 &&
-                name.equals(movie.name) &&
-                releaseDate.equals(movie.releaseDate);
+        MovieRating movieRating = (MovieRating) o;
+        return Double.compare(movieRating.rating, rating) == 0 &&
+                name.equals(movieRating.name) &&
+                releaseDate.equals(movieRating.releaseDate);
     }
 
     @Override
