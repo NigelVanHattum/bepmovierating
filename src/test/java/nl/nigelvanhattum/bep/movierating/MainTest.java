@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +72,9 @@ public class MainTest {
 
     @Test
     public void testDecodeFiles() {
-        String[] files = {"src\\test\\resources\\a.json", "src\\test\\resources\\b.json"};
+        String aJson = getClass().getResource("/a.json").getFile();
+        String bJson = getClass().getResource("/b.json").getFile();
+        String[] files = {aJson, bJson};
         List<MovieRating> actual = Main.decodeFiles(files, DecoderType.JSON);
 
         ArrayList<MovieRating> expected = new ArrayList<>();

@@ -101,7 +101,7 @@ public class Main {
         }
         List<MovieRating> movieRatings = new ArrayList<>();
         for (String file : files) {
-            logger.log(Level.FINE, () -> String.format("Decoding %s...", file));
+            logger.log(Level.INFO, () -> String.format("Decoding %s...", new File(file).getAbsolutePath()));
             Decoder decoder = DecoderFactory.getDecoder(type);
             try (InputStream targetStream = new FileInputStream(file)) {
                 movieRatings.addAll(decoder.decodeFromStream(new InputStreamReader(targetStream)));

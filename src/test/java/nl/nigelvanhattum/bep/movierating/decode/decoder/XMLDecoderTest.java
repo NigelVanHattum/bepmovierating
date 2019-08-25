@@ -83,17 +83,15 @@ public class XMLDecoderTest {
         Assert.assertEquals(expectedMovieRatings, decodedMovieRatings);
     }
 
-    @Test
+    @Test(expected = JAXBException.class)
     public void testStreamDecoderJSONInput() throws JAXBException, XMLStreamException {
         InputStream inputStream = new ByteArrayInputStream( encodedJSONString.getBytes() );
         List<MovieRating> decodedMovieRatings = decoder.decodeFromStream(new InputStreamReader(inputStream));
-        Assert.assertTrue(decodedMovieRatings.isEmpty());
     }
 
-    @Test
+    @Test(expected = JAXBException.class)
     public void testStreamDecoderRandomXML() throws JAXBException, XMLStreamException {
         InputStream inputStream = new ByteArrayInputStream( encodedRandomXML.getBytes() );
         List<MovieRating> decodedMovieRatings = decoder.decodeFromStream(new InputStreamReader(inputStream));
-        Assert.assertTrue(decodedMovieRatings.isEmpty());
     }
 }
