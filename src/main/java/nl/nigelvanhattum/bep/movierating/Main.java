@@ -22,10 +22,10 @@ import java.util.logging.Logger;
 public class Main {
     static Logger logger = Logger.getLogger(Main.class.getName());
     private static HelpFormatter formatter = new HelpFormatter();
-    private static final String HASHMAPKEYJSON = "json";
-    private static final String HASHMAPKEYXML = "xml";
-    private static final String HASHMAPKEYTO = "to";
-    private static final String HASHMAPKEYOUTPUT = "output";
+    static final String HASHMAPKEYJSON = "json";
+    static final String HASHMAPKEYXML = "xml";
+    static final String HASHMAPKEYTO = "to";
+    static final String HASHMAPKEYOUTPUT = "output";
 
     public static void main(String[] args) throws Exception {
 
