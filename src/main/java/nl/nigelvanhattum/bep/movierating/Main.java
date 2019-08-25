@@ -38,15 +38,23 @@ public class Main {
 
 
         File outputFile = new File(parsedParameters.get(HASHMAPKEYOUTPUT)[0]);
+        overWriteIfNeeded(outputFile);
+
+        saveOutput(processFiles(parsedParameters), parsedParameters.get(HASHMAPKEYTO)[0], outputFile);
+    }
+
+    static void overWriteIfNeeded(File outputFile) throws IOException {
         if (outputFile.exists()) {
             logger.log(Level.WARNING, "Found existing file, overwriting it.");
             deleteFile(outputFile.toPath());
             if (outputFile.createNewFile()) {
                 logger.log(Level.INFO, "{0} overwritten", outputFile.getAbsolutePath());
             }
+        } else {
+            if(outputFile.createNewFile()) {
+                logger.log(Level.INFO, "{0} overwritten", outputFile.getAbsolutePath());
+            }
         }
-
-        saveOutput(processFiles(parsedParameters), parsedParameters.get(HASHMAPKEYTO)[0], outputFile);
     }
 
     static List<MovieRating> processFiles(HashMap<String, String[]> files) {
@@ -86,7 +94,6 @@ public class Main {
             returnValue.put(HASHMAPKEYOUTPUT, outputLocationArray);
 
         } catch (Exception e) {
-            logger.log(Level.SEVERE, e.getCause().toString());
             formatter.printHelp("-json <file> -json <file> -xml <file> -xml <file> -to <xml-json> <output-file>", options);
             System.exit(1);
         }
@@ -115,9 +122,11 @@ public class Main {
 
     static void saveOutput(List<MovieRating> movieRatings, String outputEncoding, File outputFile) {
         Encoder encoder = EncoderFactory.getEncoder(outputEncoding);
-        try {
+        try (
+                OutputStream outputStream = new FileOutputStream(outputFile);
+        ){
             logger.log(Level.INFO, () -> "Starting export to " + outputFile.getAbsolutePath() + " using " + outputEncoding);
-            OutputStream outputStream = new FileOutputStream(outputFile);
+
             encoder.encodeStream(movieRatings, outputStream);
         } catch (FileNotFoundException e) {
             logger.log(Level.SEVERE, () -> "Could not find " + outputFile.getAbsolutePath());
